@@ -1,3 +1,8 @@
+
+require('./utils/prisma_client');
+
+const prisma = global.prisma;
+
 // Dependencies
 const http = require('http');
 const path = require('path');
@@ -28,38 +33,28 @@ const server = http.createServer(function (request, response) {
     }
 
     // Check if the path points to a folder
-    fs.stat(filePath, (err, stats) => {
+fs.stat(filePath, (err, stats) => {
         if (err) {
-            // Path does not exist
             response.writeHead(404, { 'Content-Type': 'text/plain' });
             response.end('404 Not Found');
             return;
         }
 
         if (stats.isDirectory()) {
-            // If the path is a directory, look for an index.html file
-            filePath = path.join(filePath, 'index.html');
+            filePath = path.join(filePath, 'index.html'); // Default to index.html
         }
 
-        // Check if the resolved file exists
         fs.stat(filePath, (err, stats) => {
             if (err || !stats.isFile()) {
-                // File not found or not a regular file
                 response.writeHead(404, { 'Content-Type': 'text/plain' });
                 response.end('404 Not Found');
                 return;
             }
 
-            // Serve the file
-            fs.createReadStream(filePath)
-                .on('open', () => {
-                    response.writeHead(200, { 'Content-Type': getMimeType(filePath) });
-                })
-                .on('error', () => {
-                    response.writeHead(500, { 'Content-Type': 'text/plain' });
-                    response.end('500 Internal Server Error');
-                })
-                .pipe(response);
+            const mimeType = getMimeType(filePath);
+
+            response.writeHead(200, { 'Content-Type': mimeType });
+            fs.createReadStream(filePath).pipe(response);
         });
     });
 });
@@ -113,3 +108,16 @@ function getMimeType(filePath) {
         default: return 'application/octet-stream';
     }
 }
+
+async function main() {
+
+    const bruh = await prisma.RobloxUser.create({
+        data: {
+          id: "test",
+        }
+    });
+    
+    console.log("bruh: ", bruh);
+}
+
+main();

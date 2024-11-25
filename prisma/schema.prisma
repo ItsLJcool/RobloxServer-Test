@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// npx prisma format
+// npx prisma generate
+// npx prisma migrate dev --name init
+// npx prisma migrate reset
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model RobloxUser {
+  id String @id @unique
+
+  // Here I can add custom data that I can do, like stocks or Sols RNG shit
+  SolRNG SolRngData[]
+}
+
+model SolRngData {
+  id Int @id @default(autoincrement())
+
+  name         String
+  chance       Int
+  RobloxUser   RobloxUser? @relation(fields: [robloxUserId], references: [id])
+  robloxUserId String?
+}
