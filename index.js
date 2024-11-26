@@ -8,7 +8,7 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs');
 
-const port = 5000;
+const port = 10867; // 10867
 const baseFolder = path.join(__dirname, 'public'); // Folder to serve files from
 
 // Create HTTP server
@@ -92,6 +92,8 @@ function handlePostRequest(request, response) {
 // Start the server
 server.listen(port, function () {
     console.log(`Server is listening on port ${port}`);
+
+    console.log("process.argv: ", process.argv);
 });
 
 // Utility function to determine MIME type
