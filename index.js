@@ -109,15 +109,15 @@ function getMimeType(filePath) {
     }
 }
 
-async function main() {
+// async function main() {
 
-    const bruh = await prisma.RobloxUser.create({
-        data: {
-          id: "test",
-        }
-    });
+//     const bruh = await prisma.RobloxUser.create({
+//         data: {
+//           id: "test",
+//         }
+//     });
     
-    console.log("bruh: ", bruh);
-}
+//     console.log("bruh: ", bruh);
+// }
 
-main();
+// main();
